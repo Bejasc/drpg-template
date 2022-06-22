@@ -22,8 +22,7 @@
 		"@types/moment": "^2.13.0",
 		"@types/numeral": "^2.0.2",
 		"colorette": "^2.0.19",
-		"discord.js": "^13.8.0",
-		"mongoose": "^6.2.7"
+		"discord.js": "^13.8.0"
 	},
 	"devDependencies": {
 		"@sapphire/eslint-config": "^4.3.0",
