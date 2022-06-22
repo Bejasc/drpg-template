@@ -48,6 +48,7 @@ export class InteractionManager extends EventEmitter {
 		}
 
 		if (callback) {
+			console.log(2123);
 			this.on(id, callback);
 		}
 

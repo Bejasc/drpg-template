@@ -1,7 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { Message } from "discord.js";
-import { DrpgCommand } from "../../lib/structures/DrpgCommand";
-import { IDrpgCommandOptions } from "./../../lib/structures/DrpgCommand";
+import { DrpgCommand, IDrpgCommandOptions } from "../../lib/structures/DrpgCommand";
 
 @ApplyOptions<IDrpgCommandOptions>({
 	name: "Ping",
