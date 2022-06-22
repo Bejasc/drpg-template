@@ -1,0 +1,18 @@
+{
+	"recommendations": [
+		"aaron-bond.better-comments",
+		"royaction.color-manager",
+		"dbaeumer.vscode-eslint",
+		"mhutchie.git-graph",
+		"eamodio.gitlens",
+		"xabikos.javascriptsnippets",
+		"jonathanlewis.vs-code-gen-mongo-id",
+		"quicktype.quicktype",
+		"esbenp.prettier-vscode",
+		"rvest.vs-code-prettier-eslint",
+		"wakatime.vscode-wakatime",
+		"kisstkondoros.vscode-gutter-preview",
+		"kamikillerto.vscode-colorize",
+		"mikestead.dotenv"
+	]
+}

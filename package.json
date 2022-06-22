@@ -1,0 +1,59 @@
+{
+	"name": "drpg-template",
+	"version": "1.0.0-dev",
+	"description": "DRPG Template Bot",
+	"author": "Bejasc (https://github.com/bejasc)",
+	"main": "dist/Bot.js",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w",
+		"start": "node dist/Bot.js",
+		"dev": "tsc-watch --onSuccess \"node --enable-source-maps ./dist/Bot.js\" ",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"prepare": "husky install"
+	},
+	"dependencies": {
+		"@discordjs/builders": "^0.15.0",
+		"@drpgdev/drpg-logger": "github:drpgdev/drpg-logger",
+		"@drpgdev/drpg-utils": "github:drpgdev/drpg-utils",
+		"@sapphire/decorators": "^4.3.1",
+		"@sapphire/framework": "^3.0.0-next.9d876ff.0",
+		"@sapphire/ts-config": "^3.3.2",
+		"@types/moment": "^2.13.0",
+		"@types/numeral": "^2.0.2",
+		"colorette": "^2.0.19",
+		"discord.js": "^13.8.0",
+		"mongoose": "^6.2.7"
+	},
+	"devDependencies": {
+		"@sapphire/eslint-config": "^4.3.0",
+		"@types/string-similarity": "^4.0.0",
+		"@typescript-eslint/eslint-plugin": "^5.15.0",
+		"@typescript-eslint/parser": "^5.15.0",
+		"dotenv": "^16.0.0",
+		"eslint": "^8.11.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-no-loops": "^0.3.0",
+		"eslint-plugin-no-secrets": "^0.8.9",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-promise": "^6.0.0",
+		"eslint-plugin-sonarjs": "^0.12.0",
+		"eslint-plugin-unicorn": "^41.0.0",
+		"husky": "^7.0.4",
+		"lint-staged": "^12.3.6",
+		"prettier": "^2.6.0",
+		"prettier-plugin-organize-imports": "^2.3.4",
+		"tsc-watch": "^5.0.3",
+		"typescript": "^4.6.3"
+	},
+	"engines": {
+		"node": ">=16.6.0",
+		"npm": ">=7.0.0"
+	},
+	"lint-staged": {
+		"*.ts": [
+			"eslint . --ext .ts",
+			"prettier --config .prettierrc src/**/*.ts --write"
+		]
+	}
+}
