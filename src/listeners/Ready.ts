@@ -1,6 +1,6 @@
-import { Logger, LogLevel } from "@drpgdev/drpg-logger";
-import { DrpgColors } from "@drpgdev/drpg-utils";
 import { Events, Listener, ListenerOptions, PieceContext } from "@sapphire/framework";
+import { Logger, LogLevel } from "drpg-logger";
+import { DrpgColors } from "drpg-utils";
 import { client } from "../Bot";
 
 export class UserListener extends Listener {

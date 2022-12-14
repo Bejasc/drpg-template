@@ -1,6 +1,6 @@
-import { Logger } from "@drpgdev/drpg-logger";
 import { bold, italic, red, white, yellow } from "colorette";
 import { ButtonInteraction, Collection, Emoji, EmojiIdentifierResolvable, Message, MessageButton, MessageButtonStyle, MessageEditOptions, TextBasedChannel } from "discord.js";
+import { Logger } from "drpg-logger";
 import { EventEmitter } from "stream";
 
 export interface ButtonCreationData {

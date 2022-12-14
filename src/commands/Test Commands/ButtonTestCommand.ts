@@ -1,7 +1,7 @@
-import { Logger } from "@drpgdev/drpg-logger";
-import { DrpgColors } from "@drpgdev/drpg-utils";
 import { ApplyOptions } from "@sapphire/decorators";
 import { ButtonInteraction, ColorResolvable, Message, MessageActionRow, MessageEmbed } from "discord.js";
+import { Logger } from "drpg-logger";
+import { DrpgColors } from "drpg-utils";
 import { DrpgCommand, IDrpgCommandOptions } from "../../lib/structures/DrpgCommand";
 import { InteractionManager } from "./../../lib/InteractionManager";
 
@@ -34,10 +34,6 @@ export class ButtonTestCommand extends DrpgCommand {
 				} else {
 					const rNum = Math.floor(Math.random() * 10) + 1;
 
-					//this Logger is my own NPM package I've created
-					//It will auto log to console, and also log to a discord channel, based on your env settings and config in the Bot.ts
-					//Here's a more advanced usage where you also give it a "field" for the MessageEmbed
-					//Really, this is no different to building the Embed as above - but it automatically logs some stuff for you!
 					const resultEmbed = Logger.debug(`${message.member} picked a random number!`, "Random Number Generator", message, {
 						fields: [{ name: "Result", value: rNum.toString() }],
 					});
@@ -47,9 +43,6 @@ export class ButtonTestCommand extends DrpgCommand {
 
 				interaction.deferUpdate();
 				interactionManager.discardInteraction(btnRandomNumberGenerator.customId);
-
-				//Want this to only happen once?
-				//Edit the initial message, and remove the components
 			},
 		});
 

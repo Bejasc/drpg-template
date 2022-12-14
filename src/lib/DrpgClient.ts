@@ -1,5 +1,6 @@
 import { SapphireClient } from "@sapphire/framework";
-import { ClientOptions } from "discord.js";
+import { ClientOptions, Guild } from "discord.js";
+import { client } from "../Bot";
 
 export const DEV_MODE = process.env.NODE_ENV !== "production";
 export const CLIENT_VERSION = process.env.npm_package_version!;
@@ -14,6 +15,10 @@ export class DrpgClient extends SapphireClient {
 		const login = await super.login(token);
 		return login;
 	}
+
+	public get guild(): Guild {
+		return client.guilds.cache.first();
+	}
 }
 
 const CLIENT_OPTIONS: ClientOptions = {
@@ -24,5 +29,5 @@ const CLIENT_OPTIONS: ClientOptions = {
 	intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_EMOJIS_AND_STICKERS", "GUILD_MESSAGE_REACTIONS", "GUILD_PRESENCES"],
 	partials: ["MESSAGE", "REACTION", "CHANNEL", "GUILD_MEMBER", "USER"],
 	shards: "auto",
-	typing: true,
+	typing: false,
 };

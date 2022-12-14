@@ -1,7 +1,7 @@
-import { DrpgColors, joinString, stringTitleCase } from "@drpgdev/drpg-utils";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { Args } from "@sapphire/framework";
 import { ColorResolvable, Message, MessageEmbed } from "discord.js";
+import { DrpgColors, joinString, stringTitleCase } from "drpg-utils";
 import { DrpgCommand, IDrpgCommandOptions } from "./../lib/structures/DrpgCommand";
 
 @ApplyOptions<IDrpgCommandOptions>({

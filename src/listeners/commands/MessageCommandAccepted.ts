@@ -1,7 +1,6 @@
-import { Logger } from "@drpgdev/drpg-logger";
-import { DrpgColors } from "@drpgdev/drpg-utils";
 import { Events, Listener, ListenerOptions, MessageCommandAcceptedPayload, PieceContext } from "@sapphire/framework";
-import { yellow } from "colorette";
+import { ConsoleColor, Logger } from "drpg-logger";
+import { DrpgColors } from "drpg-utils";
 
 export class MessageCommandAccepted extends Listener<typeof Events.MessageCommandAccepted> {
 	public constructor(context: PieceContext, options?: ListenerOptions) {
@@ -17,7 +16,8 @@ export class MessageCommandAccepted extends Listener<typeof Events.MessageComman
 			{
 				title: `Command Used`,
 				embedColor: DrpgColors.pink,
-				logTag: `${yellow("%T")}`,
+				consoleColor: ConsoleColor.magentaBright,
+				logTag: `CMD`,
 				priority: 100,
 				emoji: "🎮",
 			},
