@@ -1,12 +1,11 @@
 import { ApplyOptions } from "@sapphire/decorators";
+import type { CommandOptions } from "@sapphire/framework";
 import { Message } from "discord.js";
-import { DrpgCommand, IDrpgCommandOptions } from "../../lib/structures/DrpgCommand";
+import { DrpgCommand } from "../../lib/structures/DrpgCommand";
 
-@ApplyOptions<IDrpgCommandOptions>({
-	name: "Ping",
+@ApplyOptions<CommandOptions>({
 	aliases: ["latency", "ms", "ping"],
 	description: "Checks the bot's response time.",
-	showInHelpMenu: true,
 })
 export class PingCommand extends DrpgCommand {
 	public async messageRun(message: Message): Promise<Message> {
@@ -14,7 +13,7 @@ export class PingCommand extends DrpgCommand {
 
 		const content = `Bot Latency ${Math.round(this.container.client.ws.ping)}ms. API Latency ${
 			(msg.editedTimestamp || msg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp)
-		}ms.`;
+		}ms.\nThis is the new Ping command tested through CICD!`;
 
 		return msg.edit(content);
 	}

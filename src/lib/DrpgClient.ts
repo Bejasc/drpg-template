@@ -1,8 +1,9 @@
 import { SapphireClient } from "@sapphire/framework";
-import { ClientOptions, Guild } from "discord.js";
+import { ClientOptions, GatewayIntentBits, Guild, Partials } from "discord.js";
 import { client } from "../Bot";
 
 export const DEV_MODE = process.env.NODE_ENV !== "production";
+
 export const CLIENT_VERSION = process.env.npm_package_version!;
 export class DrpgClient extends SapphireClient {
 	public readonly version = CLIENT_VERSION;
@@ -13,6 +14,7 @@ export class DrpgClient extends SapphireClient {
 
 	public async login(token?: string): Promise<string> {
 		const login = await super.login(token);
+
 		return login;
 	}
 
@@ -25,9 +27,17 @@ const CLIENT_OPTIONS: ClientOptions = {
 	caseInsensitiveCommands: true,
 	caseInsensitivePrefixes: true,
 	loadMessageCommandListeners: true,
-	defaultPrefix: process.env.BOT_PREFIX,
-	intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_EMOJIS_AND_STICKERS", "GUILD_MESSAGE_REACTIONS", "GUILD_PRESENCES"],
-	partials: ["MESSAGE", "REACTION", "CHANNEL", "GUILD_MEMBER", "USER"],
+	defaultPrefix: "^",
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildEmojisAndStickers,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.MessageContent,
+	],
+	partials: [Partials.User, Partials.GuildMember, Partials.Channel, Partials.Reaction, Partials.Message],
 	shards: "auto",
-	typing: false,
+	typing: true,
 };

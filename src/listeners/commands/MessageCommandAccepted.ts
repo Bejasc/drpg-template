@@ -1,6 +1,6 @@
 import { Events, Listener, ListenerOptions, MessageCommandAcceptedPayload, PieceContext } from "@sapphire/framework";
-import { ConsoleColor, Logger } from "drpg-logger";
-import { DrpgColors } from "drpg-utils";
+import { DrpgCommandRequest } from "../../lib/structures/DrpgCommandRequest";
+import { logCommandUsed } from "../../lib/LogCommandUsed";
 
 export class MessageCommandAccepted extends Listener<typeof Events.MessageCommandAccepted> {
 	public constructor(context: PieceContext, options?: ListenerOptions) {
@@ -8,21 +8,7 @@ export class MessageCommandAccepted extends Listener<typeof Events.MessageComman
 	}
 
 	public run({ message, command }: MessageCommandAcceptedPayload): void {
-		const prefix = process.env.BOT_PREFIX;
-
-		const fullCommand = `${prefix}${command.name}`;
-
-		Logger.custom(
-			{
-				title: `Command Used`,
-				embedColor: DrpgColors.pink,
-				consoleColor: ConsoleColor.magentaBright,
-				logTag: `CMD`,
-				priority: 100,
-				emoji: "🎮",
-			},
-			`${message.member} used \`${fullCommand}\` in ${message.channel}`,
-			command.name,
-		);
+		const request = new DrpgCommandRequest(message, command);
+		logCommandUsed(request);
 	}
 }
