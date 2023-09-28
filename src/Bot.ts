@@ -3,10 +3,13 @@ require("dotenv").config();
 import { Client } from "discord.js";
 import { Logger } from "drpg-logger";
 import { DrpgClient } from "./lib/DrpgClient";
+import { enableUncaughtErrorHandling } from "./lib/ErrorHandler";
 
 export const client: DrpgClient = new DrpgClient();
 
 async function main() {
+	enableUncaughtErrorHandling();
+
 	try {
 		const embedLogLevel = Number(process.env.LOG_EMBED_LEVEL ?? 40);
 		const consoleLogLevel = Number(process.env.LOG_CONSOLE_LEVEL ?? 20);

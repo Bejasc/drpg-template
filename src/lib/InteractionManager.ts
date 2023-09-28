@@ -20,6 +20,8 @@ import { Logger } from "drpg-logger";
 import { EventEmitter } from "stream";
 import { client } from "../Bot";
 
+export const INTERACTION_ID_PREFIX: string = "benTest";
+
 export interface ButtonCreationData {
 	id: string;
 	style?: ButtonStyle;
@@ -56,7 +58,7 @@ export interface ModalInputCreationData {
 }
 
 export function getTextPrompt({ id, title, placeholder, label, callback }: ModalInputCreationData): ModalBuilder {
-	id = `swrpg-${id}`;
+	id = `${INTERACTION_ID_PREFIX}-${id}`;
 
 	const modal = new ModalBuilder().setCustomId(`modal:${id}`).setTitle(title);
 
@@ -95,6 +97,10 @@ export class InteractionManager extends EventEmitter {
 	constructor() {
 		super();
 
+		if (INTERACTION_ID_PREFIX == "drpgTemplate") {
+			Logger.warn("Please change the `INTERACTION_ID_PREFIX` stored in InteractionManager! Interactions will not be processed.", "INTERACTION_ID_PREFIX");
+		}
+
 		if (InteractionManager.instance) {
 			return InteractionManager.instance;
 		}
@@ -106,8 +112,9 @@ export class InteractionManager extends EventEmitter {
 		return this.listenerCount(interactionId) > 0;
 	}
 
-	public getDropdown({ id, options }: DropdownCreationData): StringSelectMenuBuilder {
-		id = `swrpg-${id}`;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public getDropdown({ id, placeholder, options, timeout, timeoutCallback, channel }: DropdownCreationData): StringSelectMenuBuilder {
+		id = `${INTERACTION_ID_PREFIX}-${id}`;
 
 		const dropdown = InteractionManager.dropdowns.has(id) ? InteractionManager.dropdowns.get(id) : new StringSelectMenuBuilder().setCustomId(id);
 
@@ -146,8 +153,9 @@ export class InteractionManager extends EventEmitter {
 		return dropdown;
 	}
 
-	public getButton({ id, style, label, emoji, callback, timeout, timeoutCallback }: ButtonCreationData): ButtonBuilder {
-		id = `swrpg-${id}`;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public getButton({ id, style, label, emoji, callback, timeout, timeoutCallback, channel }: ButtonCreationData): ButtonBuilder {
+		id = `${INTERACTION_ID_PREFIX}-${id}`;
 
 		const button = InteractionManager.buttons.has(id) ? InteractionManager.buttons.get(id) : new ButtonBuilder().setCustomId(id);
 
@@ -163,10 +171,12 @@ export class InteractionManager extends EventEmitter {
 			button.setEmoji(emoji as EmojiIdentifierResolvable);
 		}
 
+		let actioned = false;
+
 		this.on(id, (interaction: ButtonInteraction) => {
 			const title = `${yellow("BUTTON CLICK")}`;
 			const buttonInfo = `${italic(id)} (${white(bold(button.data.label))})`;
-
+			actioned = true;
 			Logger.debug(`[${title}] - ${buttonInfo} by ${interaction.user}`);
 		});
 
@@ -178,28 +188,18 @@ export class InteractionManager extends EventEmitter {
 
 		if (timeout) {
 			setTimeout(async () => {
-				//FIXME Button is timing out even after being interacted with
-				const title = `${red("BUTTON")}`;
-				const buttonInfo = `${italic(id)} (${white(bold(button.data.label))})`;
+				if (!actioned) {
+					const title = `${red("BUTTON")}`;
+					const buttonInfo = `${italic(id)} (${white(bold(button.data.label))})`;
 
-				Logger.debug(`[${title}] - ${buttonInfo} timed out after ${timeout / 1000} seconds`);
+					Logger.debug(`[${title}] - ${buttonInfo} timed out after ${timeout / 1000} seconds`);
 
-				/*
-				//! Can't think of a way that you'd be able to do this without performance becoming an linearly increasing issue, more messages, more time, why looping through all of t hem?
-				const message = channel.messages.cache.find((message) => {
-					return message.components.some((row) => row.components.some((component) => component.customId === id));
-				});
+					if (timeoutCallback) {
+						timeoutCallback();
+					}
 
-				if (message) {
-					this.removeMessageComponentFromMessage(message);
+					this.removeAllListeners(id);
 				}
-				*/
-
-				if (timeoutCallback) {
-					timeoutCallback();
-				}
-
-				this.removeAllListeners(id);
 			}, timeout);
 		}
 
@@ -223,6 +223,12 @@ export class InteractionManager extends EventEmitter {
 	}
 
 	public async handleUnboundButton(interaction: ButtonInteraction): Promise<void> {
+		Logger.error(
+			`${interaction.member} used unbound button ${interaction.customId} in channel <#${interaction.channel.id}>`,
+			"Unbound Button Interraction",
+			interaction.message,
+		);
+
 		if (interaction.replied) {
 			await interaction.editReply({
 				content: "This button doesn't do anything anymore! You can try sending the command again.",

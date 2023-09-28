@@ -7,6 +7,5 @@
 	"editor.lineNumbers": "on",
 	"typescript.tsserver.experimental.enableProjectDiagnostics": true,
 	"colorize.include": ["**/*.ts", "**/*.json", "**/*.css", "**/*.scss", "**/*.sass", "**/*.less", "**/*.styl"],
-	"colorize.languages": ["json", "typescript", "javascript", "css", "sass", "scss", "less", "postcss", "sss", "stylus", "xml", "svg"],
-	"discord.enabled": true
+	"colorize.languages": ["json", "typescript", "javascript", "css", "sass", "scss", "less", "postcss", "sss", "stylus", "xml", "svg"]
 }

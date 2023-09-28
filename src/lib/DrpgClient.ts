@@ -39,5 +39,4 @@ const CLIENT_OPTIONS: ClientOptions = {
 	],
 	partials: [Partials.User, Partials.GuildMember, Partials.Channel, Partials.Reaction, Partials.Message],
 	shards: "auto",
-	typing: true,
 };

@@ -99,6 +99,14 @@ export class HelpCommand extends DrpgCommand {
 
 			const categoryChunkedCommands = groupByProperty<DrpgCommand>(commands, "options.fullCategory");
 
+			if (categoryChunkedCommands.length <= 0) {
+				Logger.warn(
+					"There are no help commands. Make sure that commands you want help for have `showInHelpMenu: true` set in their CommandOptions(which should be of type DrpgCommandOptions)\nYou can use the other properties like `shortDesc` and `examples` to provide more info for the help commands.",
+					"Help Command Configuration",
+				);
+				return Logger.info("There are no commands configured to show in the Help menu.", "No Commands with Help");
+			}
+
 			const embeds = categoryChunkedCommands.map((commandCategory) => {
 				const embed: EmbedBuilder = new EmbedBuilder();
 
@@ -110,7 +118,6 @@ export class HelpCommand extends DrpgCommand {
 				const commands = commandCategory.value.map((cmd: DrpgCommand) => {
 					//TODO - if there are more than 25 of these, then need to create an embed titled `Category X of Y` ie `Info Commands - 2 of 3`
 					const opts = cmd.options as IDrpgCommandOptions;
-
 					fields.push({ name: opts?.shortDesc ?? opts.description ?? cmd.name, value: `\`${prefix}${cmd.aliases[0] ?? cmd.name}\``, inline: false });
 				});
 

@@ -1,16 +1,17 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { type CommandOptions } from "@sapphire/framework";
 import { Message } from "discord.js";
 import { Logger } from "drpg-logger";
 import { dateToEpoch } from "drpg-utils";
-import { DrpgCommand } from "../../lib/structures/DrpgCommand";
+import { DrpgCommand, IDrpgCommandOptions } from "../../lib/structures/DrpgCommand";
 import { DrpgCommandRequest } from "../../lib/structures/DrpgCommandRequest";
 import { getMaintenanceMode, setMaintenanceMode } from "../../lib/PersistentStorage";
 import { client } from "../../Bot";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<IDrpgCommandOptions>({
 	aliases: ["maintenance", "maint", "!maint"],
 	description: "Checks the bot's response time.",
+	showInHelpMenu: true,
+	fullCategory: ["Admin"],
 	preconditions: ["OwnerOnly"],
 })
 export class PingCommand extends DrpgCommand {

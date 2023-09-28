@@ -1,10 +1,11 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { CommandOptions } from "@sapphire/framework";
 import { Message } from "discord.js";
-import { DrpgCommand } from "../../lib/structures/DrpgCommand";
+import { DrpgCommand, IDrpgCommandOptions } from "../../lib/structures/DrpgCommand";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<IDrpgCommandOptions>({
 	aliases: ["latency", "ms", "ping"],
+	fullCategory: ["Debug"],
+	showInHelpMenu: true,
 	description: "Checks the bot's response time.",
 })
 export class PingCommand extends DrpgCommand {

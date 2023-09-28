@@ -3,7 +3,6 @@ import { DrpgColors } from "drpg-utils";
 import { DrpgCommandRequest } from "./structures/DrpgCommandRequest";
 
 export function logCommandUsed(request: DrpgCommandRequest): void {
-	console.log("aaaaa", request);
 	const logCommandUsage = Number(process.env.LOG_COMMAND_USE ?? 0);
 	const prefix = process.env.BOT_PREFIX;
 
