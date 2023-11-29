@@ -1,5 +1,5 @@
 import { SapphireClient } from "@sapphire/framework";
-import { ClientOptions, GatewayIntentBits, Guild, Partials } from "discord.js";
+import { ActivityType, ClientOptions, GatewayIntentBits, Guild, Partials } from "discord.js";
 import { client } from "../Bot";
 
 export const DEV_MODE = process.env.NODE_ENV !== "production";
@@ -38,5 +38,8 @@ const CLIENT_OPTIONS: ClientOptions = {
 		GatewayIntentBits.MessageContent,
 	],
 	partials: [Partials.User, Partials.GuildMember, Partials.Channel, Partials.Reaction, Partials.Message],
+	presence: {
+		activities: [{ type: ActivityType.Custom, name: process.env.ACTIVITY_NAME ?? "DRPG Template" }],
+	},
 	shards: "auto",
 };

@@ -1,9 +1,9 @@
-import { Events, Listener, ListenerOptions, PieceContext } from "@sapphire/framework";
+import { Events, Listener, ListenerOptions } from "@sapphire/framework";
 import { LogLevel, Logger } from "drpg-logger";
 import { client } from "../Bot";
 
 export class UserListener extends Listener {
-	public constructor(context: PieceContext, options?: ListenerOptions) {
+	public constructor(context: Listener.LoaderContext, options?: ListenerOptions) {
 		super(context, {
 			...options,
 			event: Events.ShardReady,

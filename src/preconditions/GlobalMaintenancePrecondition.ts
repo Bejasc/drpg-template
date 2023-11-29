@@ -1,10 +1,10 @@
-import { AllFlowsPrecondition, Command, Piece, Precondition, PreconditionResult } from "@sapphire/framework";
+import { AllFlowsPrecondition, Command, Precondition, PreconditionResult } from "@sapphire/framework";
 import { Message } from "discord.js";
 import { client } from "../Bot";
 import { getMaintenanceMode } from "../lib/PersistentStorage";
 import { DrpgCommandRequest } from "../lib/structures/DrpgCommandRequest";
 export class MaintenancePrecondition extends Precondition {
-	public constructor(context: Piece.Context, options: AllFlowsPrecondition.Options) {
+	public constructor(context: Precondition.LoaderContext, options: AllFlowsPrecondition.Options) {
 		super(context, {
 			...options,
 			position: 20,

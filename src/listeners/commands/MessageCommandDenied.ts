@@ -1,9 +1,9 @@
-import { Events, Listener, ListenerOptions, MessageCommandDeniedPayload, PieceContext, UserError } from "@sapphire/framework";
+import { Events, Listener, ListenerOptions, MessageCommandDeniedPayload, UserError } from "@sapphire/framework";
 import { Logger } from "drpg-logger";
 import { dateToEpoch } from "drpg-utils";
 
 export class MessageCommandDenied extends Listener<typeof Events.MessageCommandDenied> {
-	public constructor(context: PieceContext, options?: ListenerOptions) {
+	public constructor(context: Listener.LoaderContext, options?: ListenerOptions) {
 		super(context, { ...options, event: Events.MessageCommandDenied });
 	}
 

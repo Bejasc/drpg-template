@@ -1,4 +1,4 @@
-import { Command, CommandOptions, PieceContext } from "@sapphire/framework";
+import { Command, CommandOptions } from "@sapphire/framework";
 
 const COMMAND_OPTIONS: IDrpgCommandOptions = {
 	showInHelpMenu: false,
@@ -14,7 +14,7 @@ export interface IDrpgCommandOptions extends CommandOptions {
 export abstract class DrpgCommand extends Command {
 	public readonly fullCategory: readonly string[] = [];
 
-	public constructor(context: PieceContext, options: IDrpgCommandOptions) {
+	public constructor(context: Command.LoaderContext, options: IDrpgCommandOptions) {
 		super(context, { ...COMMAND_OPTIONS, ...options });
 
 		if (options.fullCategory) {

@@ -14,7 +14,7 @@ export class PingCommand extends DrpgCommand {
 
 		const content = `Bot Latency ${Math.round(this.container.client.ws.ping)}ms. API Latency ${
 			(msg.editedTimestamp || msg.createdTimestamp) - (message.editedTimestamp || message.createdTimestamp)
-		}ms.\nThis is the new Ping command tested through CICD!`;
+		}ms`;
 
 		return msg.edit(content);
 	}

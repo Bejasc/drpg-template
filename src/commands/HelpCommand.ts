@@ -23,7 +23,7 @@ export class HelpCommand extends DrpgCommand {
 					.setDescription((this.options as IDrpgCommandOptions).shortDesc)
 					.addStringOption((e) => e.setName("command").setDescription("View detailed help for this command").setRequired(false)),
 			{
-				idHints: ["1055494144035913819"],
+				idHints: ["1179311644468322370"],
 				behaviorWhenNotIdentical: RegisterBehavior.Overwrite,
 			},
 		);

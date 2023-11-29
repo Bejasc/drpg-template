@@ -1,9 +1,9 @@
-import { ChatInputCommandAcceptedPayload, Events, Listener, ListenerOptions, PieceContext } from "@sapphire/framework";
+import { ChatInputCommandAcceptedPayload, Events, Listener, ListenerOptions } from "@sapphire/framework";
 import { DrpgCommandRequest } from "../../lib/structures/DrpgCommandRequest";
 import { logCommandUsed } from "../../lib/LogCommandUsed";
 
 export class ChatInputCommandAccepted extends Listener<typeof Events.ChatInputCommandAccepted> {
-	public constructor(context: PieceContext, options?: ListenerOptions) {
+	public constructor(context: Listener.LoaderContext, options?: ListenerOptions) {
 		super(context, { ...options, event: Events.ChatInputCommandAccepted });
 	}
 

@@ -1,9 +1,9 @@
-import { ChatInputCommandDeniedPayload, Events, Listener, ListenerOptions, PieceContext, UserError } from "@sapphire/framework";
+import { ChatInputCommandDeniedPayload, Events, Listener, ListenerOptions, UserError } from "@sapphire/framework";
 import { Logger } from "drpg-logger";
 import { dateToEpoch } from "drpg-utils";
 
 export class ChatInputCommandDenied extends Listener<typeof Events.ChatInputCommandDenied> {
-	public constructor(context: PieceContext, options?: ListenerOptions) {
+	public constructor(context: Listener.LoaderContext, options?: ListenerOptions) {
 		super(context, { ...options, event: Events.ChatInputCommandDenied });
 	}
 
