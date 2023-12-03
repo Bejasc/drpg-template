@@ -1,6 +1,8 @@
+import { GuildMember, InteractionResponse, Message, TextChannel } from "discord.js";
+
 import { Command } from "@sapphire/framework";
-import { GuildMember, Message, TextChannel } from "discord.js";
 import { DrpgCommand } from "./DrpgCommand";
+import { DrpgCommandResponse } from "./DrpgCommandResponse";
 
 export class DrpgCommandRequest {
 	author: GuildMember;
@@ -20,6 +22,29 @@ export class DrpgCommandRequest {
 			this.message = source as Message;
 		} else {
 			this.interaction = source as Command.ChatInputCommandInteraction;
+		}
+	}
+
+	public async respond<T extends Message | InteractionResponse>(response: DrpgCommandResponse, privateResponse?: boolean): Promise<T> {
+		if (this.interaction) {
+			if (!this.interaction.replied) {
+				return (await this.interaction.reply(response.payload)) as T;
+			} else {
+				if (privateResponse) {
+					return (await this.author.send(response.payload)) as T;
+				} else {
+					return (await this.channel.send(response.payload)) as T;
+				}
+			}
+		} else {
+			if (privateResponse) return (await this.author.send(response.payload)) as T;
+			else {
+				try {
+					return (await this.message?.reply(response.payload)) as T;
+				} catch {
+					return (await this.channel.send(response.payload)) as T;
+				}
+			}
 		}
 	}
 }
