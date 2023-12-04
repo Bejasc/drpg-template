@@ -7,8 +7,12 @@ type DrpgResponsePayload = { content?: string; embeds?: EmbedBuilder[]; files?: 
 export type DrpgReponseOptions = {
 	content?: string;
 	embeds?: EmbedBuilder | EmbedBuilder[];
-	attachments: AttachmentBuilder | AttachmentBuilder[];
+	attachments?: AttachmentBuilder | AttachmentBuilder[];
 };
+
+export function checkIsCommandResponse(input: unknown): input is DrpgCommandResponse {
+	return (input as DrpgCommandResponse).payload != null;
+}
 
 export class DrpgCommandResponse {
 	private _content: string;

@@ -2,7 +2,8 @@ import { GuildMember, InteractionResponse, Message, TextChannel } from "discord.
 
 import { Command } from "@sapphire/framework";
 import { DrpgCommand } from "./DrpgCommand";
-import { DrpgCommandResponse } from "./DrpgCommandResponse";
+import { DrpgCommandResponse, checkIsCommandResponse } from "./DrpgCommandResponse";
+import { EmbedBuilder } from "@discordjs/builders";
 
 export class DrpgCommandRequest {
 	author: GuildMember;
@@ -25,7 +26,13 @@ export class DrpgCommandRequest {
 		}
 	}
 
-	public async respond<T extends Message | InteractionResponse>(response: DrpgCommandResponse, privateResponse?: boolean): Promise<T> {
+	public async respond<T extends Message | InteractionResponse>(response?: DrpgCommandResponse | EmbedBuilder | EmbedBuilder[], privateResponse?: boolean): Promise<T> {
+		if (!checkIsCommandResponse(response)) {
+			const embeds = Array.isArray(response) ? response : [response];
+
+			response = new DrpgCommandResponse({ embeds });
+		}
+
 		if (this.interaction) {
 			if (!this.interaction.replied) {
 				return (await this.interaction.reply(response.payload)) as T;
