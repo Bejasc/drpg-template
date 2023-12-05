@@ -5,9 +5,9 @@ import { ApplicationCommandRegistry, Args, Command, RegisterBehavior } from "@sa
 import { ColorResolvable, EmbedBuilder, EmbedField, Message } from "discord.js";
 import { Logger } from "drpg-logger";
 import { DrpgColors, groupByProperty, joinString, stringTitleCase } from "drpg-utils";
-import { IDrpgCommandOptions, DrpgCommand } from "../lib/structures/DrpgCommand";
-import { DrpgCommandRequest } from "../lib/structures/DrpgCommandRequest";
 import { PaginateMessage } from "../lib/DrpgUtils";
+import { DrpgCommand, IDrpgCommandOptions } from "../lib/structures/DrpgCommand";
+import { DrpgCommandRequest } from "../lib/structures/DrpgCommandRequest";
 
 @ApplyOptions<IDrpgCommandOptions>({
 	name: "help",
@@ -68,7 +68,7 @@ export class HelpCommand extends DrpgCommand {
 
 			embed.setTitle(`Command Help - ${stringTitleCase(opts.name ?? cmd.name)}`);
 
-			if (opts.description) embed.setDescription(opts.description);
+			if (opts.description || opts.shortDesc) embed.setDescription(opts.description ?? opts.shortDesc);
 
 			if (cmd.aliases?.length > 0) fields.push({ name: "Aliases", value: joinString(cmd.aliases.map((e) => `\`${prefix}${e}\``)), inline: false });
 
