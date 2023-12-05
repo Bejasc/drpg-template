@@ -1,9 +1,8 @@
-import { GuildMember, InteractionResponse, Message, TextChannel } from "discord.js";
+import { BaseMessageOptions, EmbedBuilder, GuildMember, InteractionResponse, Message, TextChannel } from "discord.js";
+import { DrpgResponse, checkIsRichEmbed } from "./RichEmbed";
 
 import { Command } from "@sapphire/framework";
 import { DrpgCommand } from "./DrpgCommand";
-import { DrpgCommandResponse, checkIsCommandResponse } from "./DrpgCommandResponse";
-import { EmbedBuilder } from "@discordjs/builders";
 
 export class DrpgCommandRequest {
 	author: GuildMember;
@@ -26,30 +25,38 @@ export class DrpgCommandRequest {
 		}
 	}
 
-	public async respond<T extends Message | InteractionResponse>(response?: DrpgCommandResponse | EmbedBuilder | EmbedBuilder[], privateResponse?: boolean): Promise<T> {
-		if (!checkIsCommandResponse(response)) {
-			const embeds = Array.isArray(response) ? response : [response];
+	isBaseMessageOptions(input: unknown): input is BaseMessageOptions {
+		//return (input as RichEmbed).payload != null;
+		return !!input && typeof input === "object" && ("content" in input || "embeds" in input);
+	}
 
-			response = new DrpgCommandResponse({ embeds });
+	public async respond<T extends Message | InteractionResponse>(response: DrpgResponse | BaseMessageOptions, privateResponse?: boolean): Promise<T> {
+		if (!this.isBaseMessageOptions(response)) {
+			if (checkIsRichEmbed(response)) {
+				response = response.payload;
+			} else {
+				if (typeof response === "string" || response instanceof String) {
+					response = { content: String(response) };
+				} else {
+					const embeds: EmbedBuilder[] = Array.isArray(response) ? response : [response];
+					response = { embeds };
+				}
+			}
 		}
 
 		if (this.interaction) {
 			if (!this.interaction.replied) {
-				return (await this.interaction.reply(response.payload)) as T;
+				return (await this.interaction.reply(response)) as T;
 			} else {
-				if (privateResponse) {
-					return (await this.author.send(response.payload)) as T;
-				} else {
-					return (await this.channel.send(response.payload)) as T;
-				}
+				return (await this.interaction.followUp(response)) as T;
 			}
 		} else {
-			if (privateResponse) return (await this.author.send(response.payload)) as T;
+			if (privateResponse) return (await this.author.send(response)) as T;
 			else {
 				try {
-					return (await this.message?.reply(response.payload)) as T;
+					return (await this.message?.reply(response)) as T;
 				} catch {
-					return (await this.channel.send(response.payload)) as T;
+					return (await this.channel.send(response)) as T;
 				}
 			}
 		}
