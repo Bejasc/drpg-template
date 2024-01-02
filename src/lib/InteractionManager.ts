@@ -161,6 +161,8 @@ export class InteractionManager extends EventEmitter {
 
 		if (style) {
 			button.setStyle(style);
+		} else {
+			button.setStyle(ButtonStyle.Secondary);
 		}
 
 		if (label) {
